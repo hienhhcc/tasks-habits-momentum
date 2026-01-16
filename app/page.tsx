@@ -1,15 +1,10 @@
+import { Suspense } from "react";
+import CurrentDate from "./components/CurrentDate";
 import Dashboard from "./components/Dashboard";
 import Icon from "./components/Icon";
 import Sidebar from "./components/Sidebar";
 
 export default function Home() {
-  const currentDate = new Date().toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-
   return (
     <div className="min-h-screen bg-background">
       <Sidebar />
@@ -26,7 +21,11 @@ export default function Home() {
               >
                 Good morning, <span className="gradient-text">Hien</span> 👋
               </h1>
-              <p className="text-foreground-muted">{currentDate}</p>
+              <p className="text-foreground-muted">
+                <Suspense fallback={<span>Loading...</span>}>
+                  <CurrentDate />
+                </Suspense>
+              </p>
             </div>
             <button className="flex items-center gap-2 bg-accent hover:bg-accent-hover text-white px-5 py-3 rounded-xl font-medium transition-all hover:shadow-lg hover:shadow-accent/20 active:scale-95">
               <Icon name="plus" strokeWidth={2} />
