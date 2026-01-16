@@ -23,6 +23,10 @@ const icons = {
     "M15 12a3 3 0 11-6 0 3 3 0 016 0z",
   ],
   bolt: ["M13 10V3L4 14h7v7l9-11h-7z"],
+  plus: ["M12 4v16m8-8H4"],
+  chevronRight: ["M9 5l7 7-7 7"],
+  clock: ["M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"],
+  trendUp: ["M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"],
 };
 
 export type IconName = keyof typeof icons;
