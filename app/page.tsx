@@ -1,7 +1,7 @@
 import { Suspense } from "react";
+import AddTaskButton from "./components/AddTaskButton";
 import CurrentDate from "./components/CurrentDate";
 import Dashboard from "./components/Dashboard";
-import Icon from "./components/Icon";
 import Sidebar from "./components/Sidebar";
 
 export default function Home() {
@@ -27,10 +27,7 @@ export default function Home() {
                 </Suspense>
               </p>
             </div>
-            <button className="flex items-center gap-2 bg-accent hover:bg-accent-hover text-white px-5 py-3 rounded-xl font-medium transition-all hover:shadow-lg hover:shadow-accent/20 active:scale-95">
-              <Icon name="plus" strokeWidth={2} />
-              Add New Task
-            </button>
+            <AddTaskButton />
           </div>
         </header>
 

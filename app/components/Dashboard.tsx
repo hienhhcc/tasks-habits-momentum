@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ADD_TASK_EVENT } from "./AddTaskButton";
 import HabitCard, { Habit } from "./HabitCard";
 import Icon from "./Icon";
+import Modal from "./Modal";
 import ProgressRing from "./ProgressRing";
 import StatCard from "./StatCard";
 import TaskCard, { Task } from "./TaskCard";
+import TaskForm from "./TaskForm";
 
 // Sample data
 const initialTasks: Task[] = [
@@ -78,9 +81,25 @@ const initialHabits: Habit[] = [
   },
 ];
 
-export default function Dashboard() {
+interface DashboardProps {
+  onOpenAddTask?: () => void;
+}
+
+export default function Dashboard({ onOpenAddTask }: DashboardProps) {
   const [tasks, setTasks] = useState(initialTasks);
   const [habits, setHabits] = useState(initialHabits);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Listen for add task event from header button
+  useEffect(() => {
+    const handleOpenModal = () => {
+      setIsModalOpen(true);
+      onOpenAddTask?.();
+    };
+
+    window.addEventListener(ADD_TASK_EVENT, handleOpenModal);
+    return () => window.removeEventListener(ADD_TASK_EVENT, handleOpenModal);
+  }, [onOpenAddTask]);
 
   const toggleTask = (id: string) => {
     setTasks((prev) =>
@@ -100,6 +119,16 @@ export default function Dashboard() {
     );
   };
 
+  const addTask = (taskData: Omit<Task, "id" | "completed">) => {
+    const newTask: Task = {
+      ...taskData,
+      id: crypto.randomUUID(),
+      completed: false,
+    };
+    setTasks((prev) => [newTask, ...prev]);
+    setIsModalOpen(false);
+  };
+
   const completedTasks = tasks.filter((t) => t.completed).length;
   const completedHabits = habits.filter((h) => h.completedToday).length;
   const totalProgress = Math.round(
@@ -108,6 +137,15 @@ export default function Dashboard() {
 
   return (
     <>
+      {/* Add Task Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Add New Task"
+      >
+        <TaskForm onSubmit={addTask} onCancel={() => setIsModalOpen(false)} />
+      </Modal>
+
       {/* Stats Row */}
       <section className="grid grid-cols-4 gap-6 mb-8">
         <div className="animate-fade-in stagger-1 opacity-0">
