@@ -5,6 +5,7 @@ import Icon from "./Icon";
 export const ADD_TASK_EVENT = "open-add-task-modal";
 
 export function triggerAddTaskModal() {
+  // Event handler in TaskListClient
   window.dispatchEvent(new CustomEvent(ADD_TASK_EVENT));
 }
 

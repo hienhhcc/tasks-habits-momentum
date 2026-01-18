@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import AddTaskButton from "./components/AddTaskButton";
 import CurrentDate from "./components/CurrentDate";
 import Dashboard from "./components/Dashboard";
+import DashboardSkeleton from "./components/DashboardSkeleton";
 import Sidebar from "./components/Sidebar";
 
 export default function Home() {
@@ -31,8 +32,10 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Dashboard Content (Client Component) */}
-        <Dashboard />
+        {/* Dashboard Content (Server Component with data fetching) */}
+        <Suspense fallback={<DashboardSkeleton />}>
+          <Dashboard />
+        </Suspense>
 
         {/* Motivation Quote */}
         <section className="mt-8 bg-linear-to-r from-accent/10 via-accent/5 to-transparent border border-accent/20 rounded-2xl p-6 animate-fade-in stagger-5 opacity-0">
