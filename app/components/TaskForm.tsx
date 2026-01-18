@@ -6,13 +6,21 @@ import { Task } from "./TaskCard";
 interface TaskFormProps {
   onSubmit: (task: Omit<Task, "id" | "completed">) => void;
   onCancel: () => void;
+  initialData?: {
+    title: string;
+    description: string;
+    priority: Task["priority"];
+    dueDate: string;
+  };
 }
 
-export default function TaskForm({ onSubmit, onCancel }: TaskFormProps) {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState<Task["priority"]>("medium");
-  const [dueDate, setDueDate] = useState("Today");
+export default function TaskForm({ onSubmit, onCancel, initialData }: TaskFormProps) {
+  const [title, setTitle] = useState(initialData?.title ?? "");
+  const [description, setDescription] = useState(initialData?.description ?? "");
+  const [priority, setPriority] = useState<Task["priority"]>(initialData?.priority ?? "medium");
+  const [dueDate, setDueDate] = useState(initialData?.dueDate ?? "Today");
+  
+  const isEditing = !!initialData;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,7 +141,7 @@ export default function TaskForm({ onSubmit, onCancel }: TaskFormProps) {
           disabled={!title.trim()}
           className="flex-1 px-4 py-3 bg-accent hover:bg-accent-hover text-white rounded-xl font-medium transition-all hover:shadow-lg hover:shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
         >
-          Add Task
+          {isEditing ? "Save Changes" : "Add Task"}
         </button>
       </div>
     </form>

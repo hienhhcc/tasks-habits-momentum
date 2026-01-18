@@ -10,16 +10,64 @@ import Modal from "./Modal";
 import TaskCard from "./TaskCard";
 import TaskForm from "./TaskForm";
 
+// Helper to format date as YYYY-MM-DD using LOCAL timezone (not UTC)
+function formatDateLocal(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+// Convert human-readable due date to database date string (client-side)
+function toDbDate(dueDate: string): string {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  switch (dueDate) {
+    case "Today":
+      return formatDateLocal(today);
+    case "Tomorrow": {
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      return formatDateLocal(tomorrow);
+    }
+    case "This Week": {
+      // End of current week (Saturday if today is Sunday, otherwise next Sunday)
+      const endOfWeek = new Date(today);
+      const dayOfWeek = today.getDay();
+      const daysUntilEndOfWeek = dayOfWeek === 0 ? 6 : 7 - dayOfWeek;
+      endOfWeek.setDate(today.getDate() + daysUntilEndOfWeek);
+      return formatDateLocal(endOfWeek);
+    }
+    case "Next Week": {
+      // 7 days after end of this week
+      const endOfThisWeek = new Date(today);
+      const dayOfWeek = today.getDay();
+      const daysUntilEndOfWeek = dayOfWeek === 0 ? 6 : 7 - dayOfWeek;
+      endOfThisWeek.setDate(today.getDate() + daysUntilEndOfWeek + 7);
+      return formatDateLocal(endOfThisWeek);
+    }
+    default:
+      return dueDate;
+  }
+}
+
 // Format database date to human-readable string
 function formatDueDate(dateStr: string | null): string {
   if (!dateStr) return "No date";
 
+  // If it's already a human-readable format, return as-is
+  if (["Today", "Tomorrow", "This Week", "Next Week", "No date", "Overdue"].includes(dateStr)) {
+    return dateStr;
+  }
+
   const date = new Date(dateStr + "T00:00:00");
+  
+  // Check if valid date
+  if (isNaN(date.getTime())) return dateStr;
+  
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
 
   const diffDays = Math.ceil(
     (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
@@ -28,7 +76,16 @@ function formatDueDate(dateStr: string | null): string {
   if (diffDays === 0) return "Today";
   if (diffDays === 1) return "Tomorrow";
   if (diffDays < 0) return "Overdue";
-  if (diffDays <= 7) return `In ${diffDays} days`;
+  
+  // Calculate end of this week (Saturday if today is Sunday, otherwise next Sunday)
+  const dayOfWeek = today.getDay();
+  const daysUntilEndOfWeek = dayOfWeek === 0 ? 6 : 7 - dayOfWeek;
+  
+  // If within this week (up to end of week)
+  if (diffDays <= daysUntilEndOfWeek) return "This Week";
+  
+  // If within next week (up to 7 days after end of this week)
+  if (diffDays <= daysUntilEndOfWeek + 7) return "Next Week";
 
   return date.toLocaleDateString("en-US", {
     month: "short",
@@ -88,7 +145,7 @@ export default function TaskListClient({ initialTasks }: TaskListClientProps) {
         title: taskData.title,
         description: taskData.description ?? null,
         priority: taskData.priority,
-        dueDate: taskData.dueDate,
+        dueDate: toDbDate(taskData.dueDate), // Convert to DB format for optimistic update
         completed: false,
         createdAt: new Date(),
         updatedAt: new Date(),
