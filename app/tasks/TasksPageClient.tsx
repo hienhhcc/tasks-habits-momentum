@@ -410,9 +410,9 @@ function TaskRow({
 
   return (
     <div
-      className={`group bg-card border border-border rounded-xl p-4 hover:border-accent/30 transition-all ${
+      className={`group bg-card border border-border rounded-xl p-4 hover:border-accent/30 transition-all relative ${
         task.completed ? "opacity-60" : ""
-      }`}
+      } ${showActions ? "z-30" : ""}`}
     >
       <div className="flex items-center gap-4">
         {/* Checkbox */}
