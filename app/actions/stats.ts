@@ -1,7 +1,7 @@
 "use server";
 
 import { db, habitCompletions, habits, tasks } from "@/db";
-import { and, eq, gte, lte, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { connection } from "next/server";
 
 export interface WeeklyData {
