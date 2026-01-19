@@ -4,7 +4,7 @@ import SidebarNav from "./SidebarNav";
 
 export default function Sidebar() {
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 bg-card border-r border-border flex flex-col z-50">
+    <aside className="sticky top-0 h-screen w-64 shrink-0 bg-card border-r border-border flex flex-col z-50">
       {/* Logo */}
       <div className="p-6 border-b border-border">
         <Link href="/" className="flex items-center gap-3 group">
