@@ -42,7 +42,7 @@ export default function StatsPage() {
         <header className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <div className="p-2 bg-accent/10 rounded-xl">
-              <Icon name="stats" className="w-6 h-6 text-accent" />
+              <Icon name="statistics" className="w-6 h-6 text-accent" />
             </div>
             <h1
               className="text-3xl font-bold"
