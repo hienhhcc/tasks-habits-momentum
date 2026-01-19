@@ -33,6 +33,7 @@ export async function createHabit(
 ): Promise<Habit> {
   const [newHabit] = await db.insert(habits).values(data).returning();
   revalidatePath("/");
+  revalidatePath("/habits");
   return newHabit;
 }
 
@@ -63,6 +64,7 @@ export async function toggleHabitComplete(id: string): Promise<boolean> {
       })
       .where(eq(habits.id, id));
     revalidatePath("/");
+    revalidatePath("/habits");
     return false;
   } else {
     // Add completion and increment streak
@@ -78,11 +80,30 @@ export async function toggleHabitComplete(id: string): Promise<boolean> {
       })
       .where(eq(habits.id, id));
     revalidatePath("/");
+    revalidatePath("/habits");
     return true;
   }
+}
+
+export async function updateHabit(
+  id: string,
+  data: Partial<Omit<NewHabit, "id" | "createdAt" | "updatedAt">>
+): Promise<Habit> {
+  const [updatedHabit] = await db
+    .update(habits)
+    .set({
+      ...data,
+      updatedAt: new Date(),
+    })
+    .where(eq(habits.id, id))
+    .returning();
+  revalidatePath("/");
+  revalidatePath("/habits");
+  return updatedHabit;
 }
 
 export async function deleteHabit(id: string): Promise<void> {
   await db.delete(habits).where(eq(habits.id, id));
   revalidatePath("/");
+  revalidatePath("/habits");
 }
