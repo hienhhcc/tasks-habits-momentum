@@ -26,11 +26,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <body
-        className={`${dmSans.variable} ${spaceGrotesk.variable} antialiased`}
+        className={`${dmSans.variable} ${spaceGrotesk.variable} antialiased h-full`}
       >
-        {children}
+        <div className="min-h-full h-full flex bg-background">
+          {children}
+        </div>
       </body>
     </html>
   );

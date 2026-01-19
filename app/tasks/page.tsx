@@ -1,3 +1,4 @@
+import Icon from "@/app/components/Icon";
 import Sidebar from "@/app/components/Sidebar";
 import { Suspense } from "react";
 import TasksContent from "./TasksContent";
@@ -35,18 +36,23 @@ function TasksSkeleton() {
 
 export default function TasksPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <>
       <Sidebar />
 
-      <main className="ml-64 p-8">
+      <main className="flex-1 p-8 overflow-auto">
         {/* Header */}
         <header className="mb-8">
-          <h1
-            className="text-3xl font-bold mb-2"
-            style={{ fontFamily: "var(--font-space-grotesk)" }}
-          >
-            Tasks
-          </h1>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 bg-accent/10 rounded-xl">
+              <Icon name="tasks" className="w-6 h-6 text-accent" />
+            </div>
+            <h1
+              className="text-3xl font-bold"
+              style={{ fontFamily: "var(--font-space-grotesk)" }}
+            >
+              Tasks
+            </h1>
+          </div>
           <p className="text-foreground-muted">
             Manage all your tasks in one place
           </p>
@@ -57,6 +63,6 @@ export default function TasksPage() {
           <TasksContent />
         </Suspense>
       </main>
-    </div>
+    </>
   );
 }

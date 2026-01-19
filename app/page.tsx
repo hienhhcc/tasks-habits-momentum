@@ -7,11 +7,11 @@ import Sidebar from "./components/Sidebar";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
+    <>
       <Sidebar />
 
       {/* Main Content */}
-      <main className="ml-64 p-8">
+      <main className="flex-1 p-8 overflow-auto">
         {/* Header */}
         <header className="mb-8 animate-fade-in">
           <div className="flex items-center justify-between">
@@ -52,6 +52,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-    </div>
+    </>
   );
 }
