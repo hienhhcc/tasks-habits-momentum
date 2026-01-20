@@ -6,6 +6,7 @@ interface DashboardStatsProps {
   totalTasks: number;
   completedHabits: number;
   totalHabits: number;
+  highestStreak: number;
 }
 
 export default function DashboardStats({
@@ -13,6 +14,7 @@ export default function DashboardStats({
   totalTasks,
   completedHabits,
   totalHabits,
+  highestStreak,
 }: DashboardStatsProps) {
   return (
     <section className="grid grid-cols-4 gap-6 mb-8">
@@ -37,8 +39,8 @@ export default function DashboardStats({
       </div>
       <div className="animate-fade-in stagger-3 opacity-0">
         <StatCard
-          title="Current Streak"
-          value="12 days"
+          title="Highest Streak"
+          value={`${highestStreak} days`}
           subtitle="Personal best: 21 days"
           color="warning"
           trend={{ value: 5, positive: true }}

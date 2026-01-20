@@ -8,8 +8,9 @@ export default async function Dashboard() {
   // Fetch data from database
   const [tasks, habits] = await Promise.all([getTasks(), getHabits()]);
 
-  const completedTasks = tasks.filter((t) => t.completed).length;
+  const completedTasks =  tasks.filter((t) => t.completed).length;
   const completedHabits = habits.filter((h) => h.completedToday).length;
+  const highestStreak = habits.reduce((max, h) => Math.max(max, h.streak), 0);
 
   return (
     <>
@@ -19,6 +20,7 @@ export default async function Dashboard() {
         totalTasks={tasks.length}
         completedHabits={completedHabits}
         totalHabits={habits.length}
+        highestStreak={highestStreak}
       />
 
       {/* Main Grid */}
