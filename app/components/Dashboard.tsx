@@ -52,7 +52,7 @@ export default async function Dashboard() {
                   className="text-2xl font-bold text-accent"
                   style={{ fontFamily: "var(--font-space-grotesk)" }}
                 >
-                  {completedTasks}
+                  {completedTasks} / {tasks.length}
                 </p>
                 <p className="text-xs text-foreground-muted">Tasks Done</p>
               </div>
@@ -61,7 +61,7 @@ export default async function Dashboard() {
                   className="text-2xl font-bold text-success"
                   style={{ fontFamily: "var(--font-space-grotesk)" }}
                 >
-                  {completedHabits}
+                  {completedHabits} / {habits.length}
                 </p>
                 <p className="text-xs text-foreground-muted">Habits Done</p>
               </div>
