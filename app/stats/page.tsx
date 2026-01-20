@@ -1,5 +1,4 @@
 import Icon from "@/app/components/Icon";
-import Sidebar from "@/app/components/Sidebar";
 import { Suspense } from "react";
 import StatsContent from "./StatsContent";
 
@@ -35,31 +34,27 @@ function StatsSkeleton() {
 export default function StatsPage() {
   return (
     <>
-      <Sidebar />
-
-      <main className="flex-1 p-8 overflow-auto">
-        {/* Header */}
-        <header className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-accent/10 rounded-xl">
-              <Icon name="statistics" className="w-6 h-6 text-accent" />
-            </div>
-            <h1
-              className="text-3xl font-bold"
-              style={{ fontFamily: "var(--font-space-grotesk)" }}
-            >
-              Statistics
-            </h1>
+      {/* Header */}
+      <header className="mb-8">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="p-2 bg-accent/10 rounded-xl">
+            <Icon name="statistics" className="w-6 h-6 text-accent" />
           </div>
-          <p className="text-foreground-muted">
-            Track your productivity and see your progress over time
-          </p>
-        </header>
+          <h1
+            className="text-3xl font-bold"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
+            Statistics
+          </h1>
+        </div>
+        <p className="text-foreground-muted">
+          Track your productivity and see your progress over time
+        </p>
+      </header>
 
-        <Suspense fallback={<StatsSkeleton />}>
-          <StatsContent />
-        </Suspense>
-      </main>
+      <Suspense fallback={<StatsSkeleton />}>
+        <StatsContent />
+      </Suspense>
     </>
   );
 }

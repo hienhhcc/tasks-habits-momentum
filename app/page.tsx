@@ -3,55 +3,49 @@ import AddTaskButton from "./components/AddTaskButton";
 import CurrentDate from "./components/CurrentDate";
 import Dashboard from "./components/Dashboard";
 import DashboardSkeleton from "./components/DashboardSkeleton";
-import Sidebar from "./components/Sidebar";
 
 export default function Home() {
   return (
     <>
-      <Sidebar />
-
-      {/* Main Content */}
-      <main className="flex-1 p-8 overflow-auto">
-        {/* Header */}
-        <header className="mb-8 animate-fade-in">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1
-                className="text-3xl font-bold mb-2"
-                style={{ fontFamily: "var(--font-space-grotesk)" }}
-              >
-                Good morning, <span className="gradient-text">Hien</span> 👋
-              </h1>
-              <p className="text-foreground-muted">
-                <Suspense fallback={<span>Loading...</span>}>
-                  <CurrentDate />
-                </Suspense>
-              </p>
-            </div>
-            <AddTaskButton />
+      {/* Header */}
+      <header className="mb-8 animate-fade-in">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1
+              className="text-3xl font-bold mb-2"
+              style={{ fontFamily: "var(--font-space-grotesk)" }}
+            >
+              Good morning, <span className="gradient-text">Hien</span> 👋
+            </h1>
+            <p className="text-foreground-muted">
+              <Suspense fallback={<span>Loading...</span>}>
+                <CurrentDate />
+              </Suspense>
+            </p>
           </div>
-        </header>
+          <AddTaskButton />
+        </div>
+      </header>
 
-        {/* Dashboard Content (Server Component with data fetching) */}
-        <Suspense fallback={<DashboardSkeleton />}>
-          <Dashboard />
-        </Suspense>
+      {/* Dashboard Content (Server Component with data fetching) */}
+      <Suspense fallback={<DashboardSkeleton />}>
+        <Dashboard />
+      </Suspense>
 
-        {/* Motivation Quote */}
-        <section className="mt-8 bg-linear-to-r from-accent/10 via-accent/5 to-transparent border border-accent/20 rounded-2xl p-6 animate-fade-in stagger-5 opacity-0">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center text-2xl">
-              💡
-            </div>
-            <div>
-              <p className="text-lg font-medium italic">
-                &quot;The secret of getting ahead is getting started.&quot;
-              </p>
-              <p className="text-sm text-foreground-muted mt-1">— Mark Twain</p>
-            </div>
+      {/* Motivation Quote */}
+      <section className="mt-8 bg-linear-to-r from-accent/10 via-accent/5 to-transparent border border-accent/20 rounded-2xl p-6 animate-fade-in stagger-5 opacity-0">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center text-2xl">
+            💡
           </div>
-        </section>
-      </main>
+          <div>
+            <p className="text-lg font-medium italic">
+              &quot;The secret of getting ahead is getting started.&quot;
+            </p>
+            <p className="text-sm text-foreground-muted mt-1">— Mark Twain</p>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

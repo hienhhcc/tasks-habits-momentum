@@ -1,3 +1,4 @@
+import Sidebar from "@/app/components/Sidebar";
 import type { Metadata } from "next";
 import { DM_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
@@ -31,7 +32,8 @@ export default function RootLayout({
         className={`${dmSans.variable} ${spaceGrotesk.variable} antialiased h-full`}
       >
         <div className="min-h-full h-full flex bg-background">
-          {children}
+          <Sidebar />
+          <main className="flex-1 p-8 overflow-auto">{children}</main>
         </div>
       </body>
     </html>
