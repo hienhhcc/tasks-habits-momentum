@@ -56,41 +56,44 @@ export default function StatsPageClient({ stats }: StatsPageClientProps) {
           >
             Weekly Activity
           </h3>
-          <div className="flex items-end justify-between gap-2 h-48">
-            {stats.weeklyData.map((day, index) => {
-              const isToday = index === new Date().getDay();
-              return (
-                <div key={day.day} className="flex-1 flex flex-col items-center gap-2">
-                  <div className="flex-1 w-full flex items-end gap-1">
-                    {/* Tasks bar */}
-                    <div
-                      className="flex-1 bg-accent/80 rounded-t-md transition-all hover:bg-accent"
-                      style={{
-                        height: `${(day.tasksCompleted / maxWeeklyValue) * 100}%`,
-                        minHeight: day.tasksCompleted > 0 ? "8px" : "0",
-                      }}
-                      title={`${day.tasksCompleted} tasks`}
-                    />
-                    {/* Habits bar */}
-                    <div
-                      className="flex-1 bg-success/80 rounded-t-md transition-all hover:bg-success"
-                      style={{
-                        height: `${(day.habitsCompleted / maxWeeklyValue) * 100}%`,
-                        minHeight: day.habitsCompleted > 0 ? "8px" : "0",
-                      }}
-                      title={`${day.habitsCompleted} habits`}
-                    />
+          <div className="h-48">
+            <div className="flex items-end justify-between gap-2 h-full">
+              {stats.weeklyData.map((day, index) => {
+                const isToday = index === new Date().getDay();
+                const taskHeight = maxWeeklyValue > 0 
+                  ? Math.max((day.tasksCompleted / maxWeeklyValue) * 140, day.tasksCompleted > 0 ? 8 : 0)
+                  : 0;
+                const habitHeight = maxWeeklyValue > 0 
+                  ? Math.max((day.habitsCompleted / maxWeeklyValue) * 140, day.habitsCompleted > 0 ? 8 : 0)
+                  : 0;
+                
+                return (
+                  <div key={day.day} className="flex-1 flex flex-col items-center h-full">
+                    <div className="flex-1 w-full flex items-end justify-center gap-1 pb-2">
+                      {/* Tasks bar */}
+                      <div
+                        className="w-5 bg-accent/80 rounded-t-md transition-all hover:bg-accent cursor-pointer"
+                        style={{ height: `${taskHeight}px` }}
+                        title={`${day.tasksCompleted} tasks`}
+                      />
+                      {/* Habits bar */}
+                      <div
+                        className="w-5 bg-success/80 rounded-t-md transition-all hover:bg-success cursor-pointer"
+                        style={{ height: `${habitHeight}px` }}
+                        title={`${day.habitsCompleted} habits`}
+                      />
+                    </div>
+                    <span
+                      className={`text-xs font-medium ${
+                        isToday ? "text-accent" : "text-foreground-muted"
+                      }`}
+                    >
+                      {day.day}
+                    </span>
                   </div>
-                  <span
-                    className={`text-xs font-medium ${
-                      isToday ? "text-accent" : "text-foreground-muted"
-                    }`}
-                  >
-                    {day.day}
-                  </span>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
           <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t border-border">
             <div className="flex items-center gap-2">
