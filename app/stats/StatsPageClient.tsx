@@ -60,13 +60,13 @@ export default function StatsPageClient({ stats }: StatsPageClientProps) {
             <div className="flex items-end justify-between gap-2 h-full">
               {stats.weeklyData.map((day, index) => {
                 const isToday = index === new Date().getDay();
-                const taskHeight = maxWeeklyValue > 0 
+                const taskHeight = maxWeeklyValue > 0
                   ? Math.max((day.tasksCompleted / maxWeeklyValue) * 140, day.tasksCompleted > 0 ? 8 : 0)
                   : 0;
-                const habitHeight = maxWeeklyValue > 0 
+                const habitHeight = maxWeeklyValue > 0
                   ? Math.max((day.habitsCompleted / maxWeeklyValue) * 140, day.habitsCompleted > 0 ? 8 : 0)
                   : 0;
-                
+
                 return (
                   <div key={day.day} className="flex-1 flex flex-col items-center h-full">
                     <div className="flex-1 w-full flex items-end justify-center gap-1 pb-2">
@@ -84,9 +84,8 @@ export default function StatsPageClient({ stats }: StatsPageClientProps) {
                       />
                     </div>
                     <span
-                      className={`text-xs font-medium ${
-                        isToday ? "text-accent" : "text-foreground-muted"
-                      }`}
+                      className={`text-xs font-medium ${isToday ? "text-accent" : "text-foreground-muted"
+                        }`}
                     >
                       {day.day}
                     </span>
